@@ -1,6 +1,5 @@
 
-	
-	package model.data_structures;
+package model.data_structures;
 
 	public class Nodes <T> {
 
@@ -30,8 +29,6 @@
 			return valor;
 		}
 	}
-
-
 
 
 

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -20,6 +21,8 @@ import com.google.gson.stream.JsonReader;
 
 import javafx.scene.shape.Line;
 import model.data_structures.LinearProbingHT;
+import model.data_structures.ListaEncadenada;
+import model.data_structures.Node1;
 import model.data_structures.Comparendo;
 import model.data_structures.SeparateChainingHT;
 import model.data_structures.codigoInfraccion; 
@@ -122,6 +125,18 @@ public class Modelo
 		return res;
 
 	}
+	public ArrayList<Comparendo> darComparendosFeClaInfSeparateChaning(String llave){
+		ArrayList<Comparendo> res = new ArrayList<Comparendo>();
+		ListaEncadenada<String, Comparendo> comparendos = datosSeparateChaining.darListaEncadenadaCompleta(llave);
+		Iterable<Node1<String, Comparendo>> iterador = comparendos.keys1();
+		Iterator<Node1<String, Comparendo>> iter = iterador.iterator();
+		while(iter.hasNext()){
+			Node1<String, Comparendo> nodo2 = iter.next();
+			res.add(nodo2.val);
+		}
+		return res;
+	}
+	
 	public int darTamaniotablaLinear(){return datosLinearProbing.darTamaniotabla();}
 	public int darNumeroElementosLinear(){return datosLinearProbing.darNumeroElementos();}
 	public int darTamaniotablaSeparate(){return datosSeparateChaining.darTamaniotabla();}

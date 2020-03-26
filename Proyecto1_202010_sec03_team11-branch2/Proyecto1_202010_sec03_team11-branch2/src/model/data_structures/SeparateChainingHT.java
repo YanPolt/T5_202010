@@ -90,6 +90,9 @@ public class SeparateChainingHT <K extends Comparable<K>,V extends Comparable<V>
         }
         return queue;
     } 
+	public ListaEncadenada<K, V> darListaEncadenadaCompleta(K Key){
+		return st[hash(Key)];
+	}
 	public int darTamaniotabla(){return m;}
 	public int darNumeroElementos(){return n;}
 

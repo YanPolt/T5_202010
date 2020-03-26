@@ -1,25 +1,13 @@
 package model.data_structures;
 
-public class ListaEncadenada <K extends Comparable<K>,V> implements ISymbolTable<K,V> 
+public class ListaEncadenada <Key extends Comparable<Key>,V> implements ISymbolTable<Key,V> 
 {
 
 	private int n;
 	
-	private Node first;
+	private Node1<Key, V> first;
 	
-	private class Node
-	{ // linked-list node
-		private K key;
-		private V val;
-		private Node next;
-		
-		public Node(K key, V val, Node next)
-		{
-			this.key = key;
-			this.val = val;
-			this.next = next;
-		}
-	}
+	
 	
 	public ListaEncadenada(){		
 	}
@@ -34,14 +22,14 @@ public class ListaEncadenada <K extends Comparable<K>,V> implements ISymbolTable
 		return size()==0;
 	}
 	
-	 public boolean contains(K key) {
+	 public boolean contains(Key key) {
 	        return get(key) != null;
 	    } 
 
 	
-	public V get(K k)
+	public V get(Key k)
 	{
-		for(Node x=first; x!=null; x=x.next)
+		for(Node1<Key, V> x=first; x!=null; x=x.next)
 		{
 			if(k.equals(x.key))
 			{
@@ -51,10 +39,10 @@ public class ListaEncadenada <K extends Comparable<K>,V> implements ISymbolTable
 		return null;
 	}
 	
-	public void put(K k,V v)
+	public void put(Key k,V v)
 	{
 		
-		for(Node x=first; x!=null; x=x.next)
+		for(Node1<Key, V> x=first; x!=null; x=x.next)
 		{
 			if(k.equals(x.key))
 			{
@@ -62,11 +50,11 @@ public class ListaEncadenada <K extends Comparable<K>,V> implements ISymbolTable
 				return;
 			}
 		}
-		first= new Node(k,v,first);
+		first= new Node1<Key, V>(k,v,first);
 		n++;
 	}
 	
-	  public V delete(K key) 
+	  public V delete(Key key) 
 	    {
 		  	V retorno= get(key);
 	        first = delete(first, key);
@@ -74,7 +62,7 @@ public class ListaEncadenada <K extends Comparable<K>,V> implements ISymbolTable
 	    }
 
 	    // delete key in linked list beginning at Node x
-	  private Node delete(Node x, K key) 
+	  private Node1<Key, V> delete(Node1<Key, V> x, Key key) 
 	  {
 	        if (x == null) return null;
 	        if (key.equals(x.key)) {
@@ -85,12 +73,18 @@ public class ListaEncadenada <K extends Comparable<K>,V> implements ISymbolTable
 	        return x;
 	    }
 	    
-	    public Iterable<K> keys()  {
-	        Cola<K> queue = new Cola<K>();
-	        for (Node x = first; x != null; x = x.next)
-	            queue.enqueue(x.key);
+	    public Iterable<Node1<Key, V>> keys1()  {
+	        Cola<Node1<Key, V>> queue = new Cola<Node1<Key, V>>();
+	        for (Node1<Key, V> x = first; x != null; x = x.next)
+	            queue.enqueue(x);
 	        return queue;
 	    }
+
+		@Override
+		public Iterable<Key> keys() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 
 
 }
