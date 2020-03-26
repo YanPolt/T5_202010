@@ -20,8 +20,10 @@ import com.google.gson.stream.JsonReader;
 
 import model.data_structures.ArregloDinamico;
 import model.data_structures.IArregloDinamico;
+import model.data_structures.LinearProbingHT;
 import model.data_structures.Comparendo;
 import model.data_structures.Ordenamientos;
+import model.data_structures.SeparateChainingHT;
 import model.data_structures.codigoInfraccion; 
 
 /**
@@ -33,29 +35,20 @@ public class Modelo
 	/**
 	 * Atributos del modelo del mundo
 	 */
-	private ArregloDinamico<Comparendo> datosOriginal;
-	private ArregloDinamico<Comparendo> datosOrdenadoInfraccion;
-	private ArregloDinamico<Comparendo> datosOrdenadoFecha;
-	private ArregloDinamico<Comparendo> datosOrdenadoLocalidad;
 
-
+	private LinearProbingHT<String ,Comparendo> datosLinearProbing;
+    private SeparateChainingHT<String, Comparendo> datosSeparateChaining;
 
 	/**
 	 * Constructor del modelo del mundo con capacidad dada
 	 * @param tamano
 	 */
-	public Modelo(int capacidad)
+	public Modelo()
 	{
-		datosOriginal = new ArregloDinamico<Comparendo>(capacidad);
-		datosOrdenadoFecha = new ArregloDinamico<Comparendo>(capacidad);
-		datosOrdenadoInfraccion = new ArregloDinamico<Comparendo>(capacidad);
-		datosOrdenadoLocalidad = new ArregloDinamico<Comparendo>(capacidad);
-
+		datosLinearProbing= new LinearProbingHT<>();
+		datosSeparateChaining= new SeparateChainingHT<>();
 	}
-	public static  boolean   less(Comparendo a, Comparendo a2, Comparator comparador)  
-	{  
-		return Ordenamientos.less(a, a2,comparador); 
-	}   
+	
 
 
 	public List<Double> cargarInfo() throws ParseException{
@@ -76,8 +69,7 @@ public class Modelo
 			SimpleDateFormat parser = new SimpleDateFormat("yyyy/MM/dd");
 			for(JsonElement e: ja) {
 				int id = e.getAsJsonObject().get("properties").getAsJsonObject().get("OBJECTID").getAsInt();
-				String fechaString = e.getAsJsonObject().get("properties").getAsJsonObject().get("FECHA_HORA").getAsString();
-				Date fecha = parser.parse(fechaString);
+				String fecha= e.getAsJsonObject().get("properties").getAsJsonObject().get("FECHA_HORA").getAsString();
 				String medio = e.getAsJsonObject().get("properties").getAsJsonObject().get("MEDIO_DETE").getAsString();
 				String Clasevehi= e.getAsJsonObject().get("properties").getAsJsonObject().get("CLASE_VEHI").getAsString();
 				String tipoServicio = e.getAsJsonObject().get("properties").getAsJsonObject().get("TIPO_SERVI").getAsString();
@@ -87,11 +79,8 @@ public class Modelo
 
 
 				Comparendo user = new Comparendo(id,fecha, medio, Clasevehi, tipoServicio, Infraccion, DescInfra, Localidad );
-				datosOriginal.agregar(user);
-				datosOrdenadoFecha.agregar(user);
-				datosOrdenadoInfraccion.agregar(user);
-				datosOrdenadoLocalidad.agregar(user);
-
+				datosLinearProbing.put(fecha+Clasevehi+Infraccion, user);
+				datosSeparateChaining.put(fecha+Clasevehi+Infraccion, user);
 				if(e.getAsJsonObject().has("geometry") && !e.getAsJsonObject().get("geometry").isJsonNull()) {
 					for(JsonElement geoElem: e.getAsJsonObject().get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray()) {
 						geo.add(geoElem.getAsDouble());

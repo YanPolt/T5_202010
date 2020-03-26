@@ -1,6 +1,6 @@
 package model.data_structures;
 
-public class SeparateChainingHT <K extends Comparable<K>,V> implements IHashTable<K,V>
+public class SeparateChainingHT <K extends Comparable<K>,V extends Comparable<V>> implements IHashTable<K,V>
 {
 	private static final int INIT_CAPACITY = 5;
 
@@ -59,7 +59,7 @@ public class SeparateChainingHT <K extends Comparable<K>,V> implements IHashTabl
 			return;
 		}
 
-		if (n/m>=0.75)
+		if (n/m>=5.0)
 		{
 			resize(2*m);
 		}
@@ -71,7 +71,7 @@ public class SeparateChainingHT <K extends Comparable<K>,V> implements IHashTabl
 	
 	public V delete(K key) 
 	{
-		if (m > INIT_CAPACITY && n <= 2*m) 
+		if (m > INIT_CAPACITY && n <= m/8) 
 			resize(m/2);
 		
         if (st[hash(key)].contains(key))

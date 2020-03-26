@@ -66,23 +66,23 @@ public class ListaEncadenada <K extends Comparable<K>,V> implements ISymbolTable
 		n++;
 	}
 	
-	  public V delete(K key) {
+	  public V delete(K key) 
+	    {
+		  	V retorno= get(key);
 	        first = delete(first, key);
-	        return delete(first,key).val;
+	        return retorno;
 	    }
 
 	    // delete key in linked list beginning at Node x
-	    private Node delete(Node x, K key) {
-	    	Node retorno= new Node(null,null,null);
+	  private Node delete(Node x, K key) 
+	  {
 	        if (x == null) return null;
 	        if (key.equals(x.key)) {
 	            n--;
-	            retorno=x;
-	            x= x.next;
-	            
+	            return x.next;
 	        }
 	        x.next = delete(x.next, key);
-	        return retorno;
+	        return x;
 	    }
 	    
 	    public Iterable<K> keys()  {
