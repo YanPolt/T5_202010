@@ -24,6 +24,7 @@ import model.data_structures.LinearProbingHT;
 import model.data_structures.ListaEncadenada;
 import model.data_structures.Node1;
 import model.data_structures.Ordenamientos;
+import model.data_structures.ArregloDinamico;
 import model.data_structures.Comparendo;
 import model.data_structures.SeparateChainingHT;
 import model.data_structures.codigoInfraccion; 
@@ -143,7 +144,49 @@ public class Modelo
 	public int darNumeroElementosLinear(){return datosLinearProbing.darNumeroElementos();}
 	public int darTamaniotablaSeparate(){return datosSeparateChaining.darTamaniotabla();}
 	public int darNumeroElementosSeparate(){return datosSeparateChaining.darNumeroElementos();}
+	
+	public boolean existeLlaveLinearProbing(String key)
+	{
+		return datosLinearProbing.contains(key);
+	}
+	
+public ArrayList<Comparendo> buscarPorKeyLinearProbing(String key)
+	{
+		ArrayList<Comparendo> retorno= new ArrayList<>();
+		LinearProbingHT<String ,Comparendo> copia=datosLinearProbing;
+		Comparendo actual= copia.get(key);
+		while(actual!=null)
+		{
+			retorno.add(actual);
+			copia.delete(key);
+			actual=copia.get(key);
+		}	
+		Ordenamientos.sortMerge(retorno, 0,retorno.size()-1);
+		
+		return retorno;
+	}
+	
+	public Comparator<Comparendo> darComparador(String caracteristicaComparable){
 
+		if(caracteristicaComparable.equals("ID"))
+		{
+
+			Comparator<Comparendo> ID = new Comparator<Comparendo>()
+			{
+				@Override
+				public int compare(Comparendo o1, Comparendo o2) 
+				{
+					if(o1.darID()<o2.darID())return -1;
+					else if (o1.darID()>o2.darID())
+						return 1;
+					return 0;	
+				}
+			};
+			return ID;
+
+		}
+		else return null;
+	}
 }
 
 

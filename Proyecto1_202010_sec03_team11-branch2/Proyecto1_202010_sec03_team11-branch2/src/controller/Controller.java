@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-
+import model.data_structures.ArregloDinamico;
 import model.data_structures.Comparendo;
 import model.logic.Modelo;
 import view.View;
@@ -65,21 +65,37 @@ public class Controller {
 
 				}
 				break;
+			case 2:
+				view.printMessage("------------------------------------------------------------------------\n Ingrese la key que desea buscar, toda pegada: \n------------------------------------------------------------------------");
+				String key = lector.next();
+				if(!modelo.existeLlaveLinearProbing(key))
+				{
+					view.printMessage("------------------------------------------------------------------------\n Ingreso una key invalida \n------------------------------------------------------------------------");
+					break;
+				}
+				ArregloDinamico<Comparendo> buscados=modelo.buscarPorKeyLinearProbing(key);
 
-							case 2:
-								view.printMessage("------------------------------------------------------------------------\n Fecha, Clase Vehiculo e Infraccion en el formato: FechaClaseVehiculoInfraccion: \n------------------------------------------------------------------------");
-								String fechavehiculoInfraccion = lector.next();
-								ArrayList<Comparendo> res = modelo.darComparendosFeClaInfSeparateChaning(fechavehiculoInfraccion);
-								if(res.get(0)==null)
-									view.printMessage(" no existen comparendos con la localidad dada.");
-								else
-								{
-									for(Comparendo e: res){
-									view.printMessage("El primer Comparendo es: "+ e.darID() +" " + e.darFecha()+ " "+e.darInfraccion()+ " "+ " "+ e.darClaseVehiculo()+" "+e.darTipoServicio()+" "+e.darLocalidad()+ "\n---------------------------");
-									
-									}
-								}
-									break;
+				for(int i=0; i<buscados.darTamano(); i++)
+				{
+					view.printMessage("------------------------------------------------------------------------\n"+"OBJECTID: "+buscados.darElemento(i).darID() +" // FECHA_HORA: "+buscados.darElemento(i).darFecha()+" // CLASE_VEHI: "+buscados.darElemento(i).darClaseVehiculo()+" // INFRACCION: "+buscados.darElemento(i).darInfraccion()+"\n------------------------------------------------------------------------");
+				}
+
+				break;
+
+			case 3:
+				view.printMessage("------------------------------------------------------------------------\n Fecha, Clase Vehiculo e Infraccion en el formato: FechaClaseVehiculoInfraccion: \n------------------------------------------------------------------------");
+				String fechavehiculoInfraccion = lector.next();
+				ArrayList<Comparendo> res = modelo.darComparendosFeClaInfSeparateChaning(fechavehiculoInfraccion);
+				if(res.get(0)==null)
+					view.printMessage(" no existen comparendos con la localidad dada.");
+				else
+				{
+					for(Comparendo e: res){
+						view.printMessage("El primer Comparendo es: "+ e.darID() +" " + e.darFecha()+ " "+e.darInfraccion()+ " "+ " "+ e.darClaseVehiculo()+" "+e.darTipoServicio()+" "+e.darLocalidad()+ "\n---------------------------");
+
+					}
+				}
+				break;
 				//			case 3:
 				//				view.printMessage("------------------------------------------------------------------------\n Ingrese la fecha que desea usar en el formato yyyy/MM/dd: \n------------------------------------------------------------------------");
 				//				String fechaS = lector.next();
