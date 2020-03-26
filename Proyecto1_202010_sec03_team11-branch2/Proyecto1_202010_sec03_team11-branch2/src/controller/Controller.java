@@ -73,11 +73,11 @@ public class Controller {
 					view.printMessage("------------------------------------------------------------------------\n Ingreso una key invalida \n------------------------------------------------------------------------");
 					break;
 				}
-				ArregloDinamico<Comparendo> buscados=modelo.buscarPorKeyLinearProbing(key);
+				ArrayList<Comparendo> buscados=modelo.buscarPorKeyLinearProbing(key);
 
-				for(int i=0; i<buscados.darTamano(); i++)
+				for(int i=0; i<buscados.size(); i++)
 				{
-					view.printMessage("------------------------------------------------------------------------\n"+"OBJECTID: "+buscados.darElemento(i).darID() +" // FECHA_HORA: "+buscados.darElemento(i).darFecha()+" // CLASE_VEHI: "+buscados.darElemento(i).darClaseVehiculo()+" // INFRACCION: "+buscados.darElemento(i).darInfraccion()+"\n------------------------------------------------------------------------");
+					view.printMessage("------------------------------------------------------------------------\n"+"OBJECTID: "+buscados.get(i).darID() +" // FECHA_HORA: "+buscados.get(i).darFecha()+" // CLASE_VEHI: "+buscados.get(i).darClaseVehiculo()+" // INFRACCION: "+buscados.get(i).darInfraccion()+"\n------------------------------------------------------------------------");
 				}
 
 				break;
