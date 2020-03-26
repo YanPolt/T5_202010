@@ -2,7 +2,7 @@ package model.data_structures;
 
 public class LinearProbingHT <K ,V > implements IHashTable<K,V>   
 {
-	private static final int INIT_CAPACITY = 4;
+	private static final int INIT_CAPACITY = 53;
 
 	private int n;
 	private int m;

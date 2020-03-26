@@ -2,7 +2,7 @@ package model.data_structures;
 
 public class SeparateChainingHT <K extends Comparable<K>,V extends Comparable<V>> implements IHashTable<K,V>
 {
-	private static final int INIT_CAPACITY = 5;
+	private static final int INIT_CAPACITY = 53;
 
 	private int n;          						// number of key-value pairs
 
