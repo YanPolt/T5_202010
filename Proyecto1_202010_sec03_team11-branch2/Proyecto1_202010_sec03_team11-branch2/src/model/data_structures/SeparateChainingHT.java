@@ -90,6 +90,10 @@ public class SeparateChainingHT <K extends Comparable<K>,V extends Comparable<V>
         }
         return queue;
     } 
+	public int darTamaniotabla(){return m;}
+	public int darNumeroElementos(){return n;}
+
+	
 }
 
 

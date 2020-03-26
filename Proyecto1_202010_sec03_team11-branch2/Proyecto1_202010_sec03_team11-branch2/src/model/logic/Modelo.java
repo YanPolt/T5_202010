@@ -18,7 +18,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
-
+import javafx.scene.shape.Line;
 import model.data_structures.LinearProbingHT;
 import model.data_structures.Comparendo;
 import model.data_structures.SeparateChainingHT;
@@ -35,7 +35,7 @@ public class Modelo
 	 */
 
 	private LinearProbingHT<String ,Comparendo> datosLinearProbing;
-    private SeparateChainingHT<String, Comparendo> datosSeparateChaining;
+	private SeparateChainingHT<String, Comparendo> datosSeparateChaining;
 
 	/**
 	 * Constructor del modelo del mundo con capacidad dada
@@ -46,11 +46,12 @@ public class Modelo
 		datosLinearProbing= new LinearProbingHT<>();
 		datosSeparateChaining= new SeparateChainingHT<>();
 	}
-	
 
 
-	public List<Double> cargarInfo() throws ParseException{
-		List<Double> geo = new ArrayList<Double>();
+
+	public Comparendo[] cargarInfo() throws ParseException{
+		String llaveUltimoelemento="";
+		Comparendo []res = new Comparendo[2]; 
 
 		try {
 			////// tesing
@@ -65,7 +66,8 @@ public class Modelo
 			JsonElement elem = JsonParser.parseReader(reader);
 			JsonArray ja = elem.getAsJsonObject().get("features").getAsJsonArray();
 			SimpleDateFormat parser = new SimpleDateFormat("yyyy/MM/dd");
-			for(JsonElement e: ja) {
+			for(JsonElement e: ja)
+			{
 				int id = e.getAsJsonObject().get("properties").getAsJsonObject().get("OBJECTID").getAsInt();
 				String fecha= e.getAsJsonObject().get("properties").getAsJsonObject().get("FECHA_HORA").getAsString();
 				String medio = e.getAsJsonObject().get("properties").getAsJsonObject().get("MEDIO_DETE").getAsString();
@@ -79,23 +81,55 @@ public class Modelo
 				Comparendo user = new Comparendo(id,fecha, medio, Clasevehi, tipoServicio, Infraccion, DescInfra, Localidad );
 				datosLinearProbing.put(fecha+Clasevehi+Infraccion, user);
 				datosSeparateChaining.put(fecha+Clasevehi+Infraccion, user);
-				if(e.getAsJsonObject().has("geometry") && !e.getAsJsonObject().get("geometry").isJsonNull()) {
-					for(JsonElement geoElem: e.getAsJsonObject().get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray()) {
-						geo.add(geoElem.getAsDouble());
-
-					}
-				}
+				
+				llaveUltimoelemento = fecha+Clasevehi+Infraccion;
 			}
+			System.out.println(Arrays.toString(lista.toArray()));
+			res[0] = datosLinearProbing.get(darLlavePrimerComparendo());
+			res[1] = datosLinearProbing.get(llaveUltimoelemento);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return res;
+	}
+	public String darLlavePrimerComparendo(){
+		String res ="";
+		try {
+			////// tesing
+			Gson gson = new Gson();
+
+			String path = "./data/comparendos_dei_2018_small.geojson";
+			JsonReader reader;
+
+			List<String> lista = new ArrayList<String>();
+
+			reader = new JsonReader(new FileReader(path));
+			JsonElement elem = JsonParser.parseReader(reader);
+			JsonElement e = elem.getAsJsonObject().get("features").getAsJsonArray().get(0);
+
+			String fecha= e.getAsJsonObject().get("properties").getAsJsonObject().get("FECHA_HORA").getAsString();
+			String Clasevehi= e.getAsJsonObject().get("properties").getAsJsonObject().get("CLASE_VEHI").getAsString();
+			String Infraccion =e.getAsJsonObject().get("properties").getAsJsonObject().get("INFRACCION").getAsString();
+			res = fecha+Clasevehi+Infraccion;
+
 			System.out.println(Arrays.toString(lista.toArray()));
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return res;
 
-		return geo;
 	}
+	public int darTamaniotablaLinear(){return datosLinearProbing.darTamaniotabla();}
+	public int darNumeroElementosLinear(){return datosLinearProbing.darNumeroElementos();}
+	public int darTamaniotablaSeparate(){return datosSeparateChaining.darTamaniotabla();}
+	public int darNumeroElementosSeparate(){return datosSeparateChaining.darNumeroElementos();}
 
 }
+
+
 
 
 
