@@ -66,15 +66,20 @@ public class Controller {
 				}
 				break;
 
-				//			case 2:
-				//				view.printMessage("------------------------------------------------------------------------\n Ingrese la Localidad que desea buscar: \n------------------------------------------------------------------------");
-				//				String pLocalidad = lector.next();
-				//				Comparendo res = modelo.darPrimerComparendoPorLocalidad(pLocalidad);
-				//				if(res == null)
-				//					view.printMessage(" no existen comparendos con la localidad dada.");
-				//				else
-				//					view.printMessage("El primer Comparendo es: "+ res.darID() +" " + res.darFecha()+ " "+res.darInfraccion()+ " "+ " "+ res.darClaseVehiculo()+" "+res.darTipoServicio()+" "+res.darLocalidad()+ "\n---------------------------");
-				//				break;
+							case 2:
+								view.printMessage("------------------------------------------------------------------------\n Fecha, Clase Vehiculo e Infraccion en el formato: FechaClaseVehiculoInfraccion: \n------------------------------------------------------------------------");
+								String fechavehiculoInfraccion = lector.next();
+								ArrayList<Comparendo> res = modelo.darComparendosFeClaInfSeparateChaning(fechavehiculoInfraccion);
+								if(res.get(0)==null)
+									view.printMessage(" no existen comparendos con la localidad dada.");
+								else
+								{
+									for(Comparendo e: res){
+									view.printMessage("El primer Comparendo es: "+ e.darID() +" " + e.darFecha()+ " "+e.darInfraccion()+ " "+ " "+ e.darClaseVehiculo()+" "+e.darTipoServicio()+" "+e.darLocalidad()+ "\n---------------------------");
+									
+									}
+								}
+									break;
 				//			case 3:
 				//				view.printMessage("------------------------------------------------------------------------\n Ingrese la fecha que desea usar en el formato yyyy/MM/dd: \n------------------------------------------------------------------------");
 				//				String fechaS = lector.next();

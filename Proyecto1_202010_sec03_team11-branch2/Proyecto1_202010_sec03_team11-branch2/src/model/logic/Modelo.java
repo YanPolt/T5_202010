@@ -23,6 +23,7 @@ import javafx.scene.shape.Line;
 import model.data_structures.LinearProbingHT;
 import model.data_structures.ListaEncadenada;
 import model.data_structures.Node1;
+import model.data_structures.Ordenamientos;
 import model.data_structures.Comparendo;
 import model.data_structures.SeparateChainingHT;
 import model.data_structures.codigoInfraccion; 
@@ -134,6 +135,7 @@ public class Modelo
 			Node1<String, Comparendo> nodo2 = iter.next();
 			res.add(nodo2.val);
 		}
+		Ordenamientos.sortMerge(res, 0, res.size()-1);
 		return res;
 	}
 	
